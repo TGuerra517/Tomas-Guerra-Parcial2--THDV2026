@@ -2,37 +2,19 @@ using UnityEngine;
 
 public class WheelChairRotation : MonoBehaviour
 {
-    [Header("Rotación")]
-    [SerializeField] private float rotationAmount = 30f;
-    [SerializeField] private float rotationSpeed = 150f;
-
-    private float targetRotation;
-
-
-    void Start()
-    {
-        targetRotation = transform.eulerAngles.y;
-    }
+    [SerializeField] private float rotationSpeed = 100f;
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
-            targetRotation -= rotationAmount;
+            transform.Rotate(0f, -rotationSpeed * Time.deltaTime, 0f);
         }
 
-        if (Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButton(1))
         {
-            targetRotation += rotationAmount;
+            transform.Rotate(0f, rotationSpeed * Time.deltaTime, 0f);
         }
-
-        Quaternion target = Quaternion.Euler(0f, targetRotation, 0f);
-
-        transform.rotation = Quaternion.RotateTowards(
-            transform.rotation,
-            target,
-            rotationSpeed * Time.deltaTime
-        );
     }
 }
 
