@@ -1,8 +1,11 @@
+
 using UnityEngine;
 
 public class ObstaculoMovil : MonoBehaviour
 {
     public DatosObstaculo datos;
+
+    public Vector3 direccion = Vector3.right;
 
     Vector3 posicionInicial;
 
@@ -18,6 +21,7 @@ public class ObstaculoMovil : MonoBehaviour
             datos.distancia
         );
 
-        transform.position = posicionInicial + Vector3.right * movimiento;
+        transform.position = posicionInicial + direccion.normalized * movimiento;
     }
 }
+
