@@ -1,5 +1,6 @@
 
 
+
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -14,7 +15,10 @@ public class UIpensamiento : MonoBehaviour
     bool mostrando = false;
     bool juegoTerminado = false;
 
-    void Start()
+    DatosPensamiento[] mensajesInicio;
+    int mensajeActual;
+
+    void Awake()
     {
         panel.SetActive(false);
     }
@@ -31,16 +35,61 @@ public class UIpensamiento : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.R))
             {
                 Time.timeScale = 1f;
-
                 SceneManager.LoadScene(
                     SceneManager.GetActiveScene().buildIndex
                 );
             }
+
+            return;
         }
-        else if (Input.GetKeyDown(KeyCode.E))
+
+        if (Input.GetKeyDown(KeyCode.E))
         {
-            CerrarPensamiento();
+            if (mensajesInicio != null)
+            {
+                mensajeActual++;
+
+                if (mensajeActual < mensajesInicio.Length)
+                {
+                    ActualizarTexto(mensajesInicio[mensajeActual]);
+                }
+                else
+                {
+                    mensajesInicio = null;
+                    CerrarPensamiento();
+                }
+            }
+            else
+            {
+                CerrarPensamiento();
+            }
         }
+    }
+
+    void ActualizarTexto(DatosPensamiento datos)
+    {
+        textoTitulo.text = datos.titulo;
+        textoContenido.text = datos.contenido;
+    }
+
+    public void MostrarIntroduccion(DatosPensamiento[] mensajes)
+    {
+        if (mostrando || juegoTerminado ||
+            mensajes == null || mensajes.Length == 0)
+        {
+            return;
+        }
+
+        mensajesInicio = mensajes;
+        mensajeActual = 0;
+
+        ActualizarTexto(mensajesInicio[0]);
+
+        textoContinuar.SetActive(true);
+        panel.SetActive(true);
+
+        mostrando = true;
+        Time.timeScale = 0f;
     }
 
     public void MostrarPensamiento(DatosPensamiento datos)
@@ -50,8 +99,7 @@ public class UIpensamiento : MonoBehaviour
             return;
         }
 
-        textoTitulo.text = datos.titulo;
-        textoContenido.text = datos.contenido;
+        ActualizarTexto(datos);
 
         textoContinuar.SetActive(true);
         panel.SetActive(true);
@@ -80,8 +128,7 @@ public class UIpensamiento : MonoBehaviour
         juegoTerminado = true;
         mostrando = true;
 
-        textoTitulo.text = datos.titulo;
-        textoContenido.text = datos.contenido;
+        ActualizarTexto(datos);
 
         textoContinuar.SetActive(false);
         panel.SetActive(true);
@@ -101,5 +148,11 @@ public class UIpensamiento : MonoBehaviour
     {
         return juegoTerminado;
     }
+
+    public bool EstaMostrandoMensaje()
+    {
+        return mostrando;
+    }
 }
+
 

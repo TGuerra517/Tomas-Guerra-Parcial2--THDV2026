@@ -1,4 +1,5 @@
 
+
 using UnityEngine;
 
 public class CameraLook : MonoBehaviour
@@ -6,6 +7,8 @@ public class CameraLook : MonoBehaviour
     [SerializeField] private float sensitivity = 3f;
     [SerializeField] private float minAngle = -30f;
     [SerializeField] private float maxAngle = 60f;
+
+    public UIpensamiento interfaz;
 
     private float verticalRotation;
 
@@ -21,6 +24,11 @@ public class CameraLook : MonoBehaviour
 
     void Update()
     {
+        if (interfaz.EstaMostrandoMensaje())
+        {
+            return;
+        }
+
         float mouseY = Input.GetAxisRaw("Mouse Y");
 
         verticalRotation -= mouseY * sensitivity;
