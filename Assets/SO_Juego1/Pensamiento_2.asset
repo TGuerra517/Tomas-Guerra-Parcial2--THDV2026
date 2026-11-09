@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221e5a50cf00b734180d06c72ec2916e, type: 3}
   m_Name: Pensamiento_2
   m_EditorClassIdentifier: Assembly-CSharp::DatosPensamiento
-  titulo: 
-  contenido: 
+  titulo: Dolor
+  contenido: "Todo el mundo me mira con lastima. Ni\xF1o que pasa, ni\xF1o que envidio
+    por tener dos piernas. Me siento atrapado. Pero aqui...soy feliz."

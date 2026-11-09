@@ -13,5 +13,9 @@ MonoBehaviour:
   m_Name: MensajeVictoria
   m_EditorClassIdentifier: Assembly-CSharp::DatosPensamiento
   titulo: El Fin
-  contenido: "Llegue a la cima, por fin. \xBFY ahora que hago?\n\n\nPresiona R para
-    volver a jugar"
+  contenido: 'Lo hice, finalmente lo hice. Wow, que lindo se ve el cielo desde aca
+    arriba.
+
+
+
+    Presiona R para volver a jugar'

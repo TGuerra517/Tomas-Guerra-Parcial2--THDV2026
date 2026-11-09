@@ -12,5 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 221e5a50cf00b734180d06c72ec2916e, type: 3}
   m_Name: Pensamiento_3
   m_EditorClassIdentifier: Assembly-CSharp::DatosPensamiento
-  titulo: 
-  contenido: 
+  titulo: Anecdota
+  contenido: Una vez, fui a ver una obra de teatro. Uno de los actores era discapacitado,
+    usaba silla de ruedas como yo. Hacia cosas espectaculares, se movia con tanta
+    soltura. Eso me da esperanza...
