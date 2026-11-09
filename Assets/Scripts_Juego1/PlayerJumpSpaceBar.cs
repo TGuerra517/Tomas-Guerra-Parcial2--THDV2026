@@ -6,7 +6,7 @@ public class PlayerJump : MonoBehaviour
     [SerializeField] private float jumpForce = 5f;
 
     private Rigidbody rb;
-    private bool isGrounded = true;
+    private bool isGrounded = false;
 
     void Start()
     {
@@ -26,8 +26,21 @@ public class PlayerJump : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
-            isGrounded = true;
+            // Solo se considera en el suelo si no está subiendo.
+            if (rb.linearVelocity.y <= 0.1f)
+            {
+                isGrounded = true;
+            }
+        }
+    }
+
+    void OnCollisionExit(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGrounded = false;
         }
     }
 }
+
 
