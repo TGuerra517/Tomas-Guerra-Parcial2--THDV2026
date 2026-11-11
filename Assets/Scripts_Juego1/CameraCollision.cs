@@ -3,23 +3,46 @@ using UnityEngine;
 
 public class CameraCollision : MonoBehaviour
 {
+    [Header("Referencias")]
     public Transform cameraPivot;
     public LayerMask capasObstaculos;
 
-    public float distancia = 4f;
+    [Header("Colisiones")]
     public float radio = 0.35f;
     public float margen = 0.2f;
 
+    private Vector3 posicionLocalOriginal;
+
+    void Start()
+    {
+        // Guardamos la posicion que configuraste en Unity.
+        posicionLocalOriginal = transform.localPosition;
+    }
+
     void LateUpdate()
     {
-        if (cameraPivot == null) return;
+        if (cameraPivot == null)
+            return;
+
+        // Calculamos la posicion deseada de la camara.
+        Vector3 posicionDeseada =
+            cameraPivot.TransformPoint(posicionLocalOriginal);
 
         Vector3 origen = cameraPivot.position;
-        Vector3 direccion = -cameraPivot.forward;
+
+        Vector3 direccion = posicionDeseada - origen;
+
+        float distancia = direccion.magnitude;
+
+        if (distancia <= 0.01f)
+            return;
+
+        direccion.Normalize();
 
         float distanciaFinal = distancia;
 
-        // Comprueba si el origen está dentro de una pared.
+        // Comprobamos si el origen esta dentro
+        // de un obstaculo.
         Collider[] obstaculos = Physics.OverlapSphere(
             origen,
             radio,
@@ -33,7 +56,8 @@ public class CameraCollision : MonoBehaviour
         }
         else
         {
-            // Busca obstáculos entre el jugador y la cámara.
+            // Buscamos obstaculos entre el jugador
+            // y la posicion deseada de la camara.
             if (Physics.SphereCast(
                 origen,
                 radio,
@@ -50,7 +74,10 @@ public class CameraCollision : MonoBehaviour
             }
         }
 
-        transform.position = origen + direccion * distanciaFinal;
+        // Movemos la camara respetando
+        // su posicion original.
+        transform.position =
+            origen + direccion * distanciaFinal;
     }
 }
 
