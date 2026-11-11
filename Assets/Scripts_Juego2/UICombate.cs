@@ -235,7 +235,7 @@ public class UICombate : MonoBehaviour
     {
         textoVida.text = jugador.VidaActual + " / " + jugador.VidaMaxima;
         barraVida.value = jugador.VidaActual;
-        textoEstado.text = sombra.EstadoActual.ToString();
+        textoEstado.text = "Estado Sombra: " + sombra.EstadoActual.ToString();
 
         ActualizarUsos();
     }
