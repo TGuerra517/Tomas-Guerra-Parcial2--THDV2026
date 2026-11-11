@@ -16,6 +16,14 @@ public class Sombra : MonoBehaviour
     private EstadoSombra estadoActual;
     private int indiceAfirmacion;
 
+    [Header("Colores de la sombra")]
+    [SerializeField] private Renderer renderSombra;
+
+    [SerializeField] private Color colorConviccion = Color.red;
+    [SerializeField] private Color colorDuda = Color.magenta;
+    [SerializeField] private Color colorVulnerabilidad = Color.cyan;
+
+
     public EstadoSombra EstadoActual => estadoActual;
 
     public DatosAfirmacion AfirmacionActual
@@ -33,11 +41,14 @@ public class Sombra : MonoBehaviour
     {
         estadoActual = EstadoSombra.Conviccion;
         indiceAfirmacion = 0;
+        ActualizarColor();
     }
 
     public void CambiarEstado(EstadoSombra nuevoEstado)
     {
         estadoActual = nuevoEstado;
+
+        ActualizarColor();
 
         Debug.Log("La sombra cambió al estado: " + estadoActual);
     }
@@ -79,5 +90,35 @@ public class Sombra : MonoBehaviour
 
         Debug.Log("Nueva afirmación: " + ObtenerDialogoActual());
     }
+
+
+    private void ActualizarColor()
+    {
+        if (renderSombra == null)
+            return;
+
+        Color nuevoColor = Color.white;
+
+        switch (estadoActual)
+        {
+            case EstadoSombra.Conviccion:
+                nuevoColor = colorConviccion;
+                break;
+
+            case EstadoSombra.Duda:
+                nuevoColor = colorDuda;
+                break;
+
+            case EstadoSombra.Vulnerabilidad:
+                nuevoColor = colorVulnerabilidad;
+                break;
+        }
+
+        renderSombra.material.color = nuevoColor;
+    }
+
+
+
+
 }
 

@@ -13,9 +13,13 @@ public class Combatiente : MonoBehaviour
 
     public bool EstaDerrotado => vidaActual <= 0;
 
+    private FeedbackDanio feedbackDanio;
+
     private void Awake()
     {
         vidaActual = vidaMaxima;
+
+        feedbackDanio = GetComponent<FeedbackDanio>();
     }
 
     public void RecibirDanio(int cantidad)
@@ -25,6 +29,11 @@ public class Combatiente : MonoBehaviour
 
         vidaActual -= cantidad;
         vidaActual = Mathf.Max(vidaActual, 0);
+
+        if (feedbackDanio != null)
+        {
+            feedbackDanio.MostrarImpacto();
+        }
 
         Debug.Log($"{gameObject.name} recibió {cantidad} de daño. Vida: {vidaActual}/{vidaMaxima}");
     }

@@ -22,9 +22,22 @@ public class GestorCombate : MonoBehaviour
 
     private int defensaPendiente;
 
+
+    [Header("Limites de palabras")]
+    [SerializeField] private int usosMaximos = 3;
+
+    private int usosAceptar;
+    private int usosPerdonar;
+
+    public int UsosAceptar => usosAceptar;
+    public int UsosPerdonar => usosPerdonar;
+
     private void Start()
     {
         combateTerminado = false;
+
+        usosAceptar = usosMaximos;
+        usosPerdonar = usosMaximos;
 
         Debug.Log("¡Comienza el combate!");
         Debug.Log("La sombra dice: " + sombra.ObtenerDialogoActual());
@@ -53,14 +66,37 @@ public class GestorCombate : MonoBehaviour
                 UsarPalabraOfensiva(palabra);
                 break;
 
+
             case TipoPalabra.Aceptar:
+
+                if (usosAceptar <= 0)
+                {
+                    Debug.Log("No quedan usos de ACEPTAR.");
+                    return;
+                }
+
+                usosAceptar--;
+
                 defensaPendiente = palabra.defensa;
-                Debug.Log("El jugador se prepara para resistir.");
+
+                Debug.Log("ACEPTAR: usos restantes " + usosAceptar);
                 break;
 
             case TipoPalabra.Perdonar:
+
+                if (usosPerdonar <= 0)
+                {
+                    Debug.Log("No quedan usos de PERDONAR.");
+                    return;
+                }
+
+                usosPerdonar--;
+
                 jugador.Curar(palabra.curacion);
+
+                Debug.Log("PERDONAR: usos restantes " + usosPerdonar);
                 break;
+
 
             case TipoPalabra.Afirmar:
                 UsarAfirmar(palabra);
@@ -138,29 +174,38 @@ public class GestorCombate : MonoBehaviour
         Debug.Log("La sombra dice: " + sombra.ObtenerDialogoActual());
     }
 
+
     private void UsarAfirmar(DatosPalabra palabra)
     {
-        int danio = palabra.danioBase;
+        int danio = 0;
 
-        if (sombra.EstadoActual == EstadoSombra.Duda)
+        switch (sombra.EstadoActual)
         {
-            danio *= 2;
-        }
-        else if (sombra.EstadoActual == EstadoSombra.Vulnerabilidad)
-        {
-            danio *= 3;
+            case EstadoSombra.Conviccion:
+                danio = 5;
+                break;
+
+            case EstadoSombra.Duda:
+                danio = 15;
+                break;
+
+            case EstadoSombra.Vulnerabilidad:
+                danio = palabra.danioBase * 3;
+                break;
         }
 
         enemigo.RecibirDanio(danio);
 
         Debug.Log("El jugador utiliza AFIRMAR.");
+        Debug.Log("Daño realizado: " + danio);
 
-        if (sombra.EstadoActual == EstadoSombra.Vulnerabilidad &&
-            !enemigo.EstaDerrotado)
+        if (sombra.EstadoActual == EstadoSombra.Vulnerabilidad
+            && !enemigo.EstaDerrotado)
         {
             sombra.SiguienteAfirmacion();
         }
     }
+
 
 
     public void TurnoEnemigo()

@@ -19,6 +19,7 @@ public class UICombate : MonoBehaviour
     [Header("Interfaz de la sombra")]
     [SerializeField] private TMP_Text textoEstado;
     [SerializeField] private TMP_Text textoDialogo;
+    [SerializeField] private TMP_Text textoDanio;
 
     [Header("Botones de palabras")]
     [SerializeField] private Button botonRecordar;
@@ -27,11 +28,36 @@ public class UICombate : MonoBehaviour
     [SerializeField] private Button botonPerdonar;
     [SerializeField] private Button botonAfirmar;
 
+    [Header("Textos de usos restantes")]
+    [SerializeField] private TMP_Text textoBotonAceptar;
+    [SerializeField] private TMP_Text textoBotonPerdonar;
+
     [Header("Boton de dialogo")]
     [SerializeField] private Button botonContinuar;
 
     [Header("Boton de reinicio")]
     [SerializeField] private Button botonReiniciar;
+
+
+    [Header("Colores del dialogo")]
+    [SerializeField] private Image fondoDialogo;
+
+    [SerializeField]
+    private Color colorSombra =
+        new Color(0.17f, 0.12f, 0.24f, 0.9f);
+
+    [SerializeField]
+    private Color colorProtagonista =
+        new Color(0.10f, 0.20f, 0.25f, 0.9f);
+
+
+
+    [Header("Datos de las palabras")]
+    [SerializeField] private DatosPalabra recordarDatos;
+    [SerializeField] private DatosPalabra cuestionarDatos;
+    [SerializeField] private DatosPalabra aceptarDatos;
+    [SerializeField] private DatosPalabra perdonarDatos;
+    [SerializeField] private DatosPalabra afirmarDatos;
 
     private int etapaDialogo;
     private TipoPalabra ultimaPalabra;
@@ -59,9 +85,10 @@ public class UICombate : MonoBehaviour
         botonContinuar.onClick.AddListener(ContinuarDialogo);
 
         botonContinuar.gameObject.SetActive(false);
+        textoDanio.gameObject.SetActive(false);
 
         ActualizarDatos();
-        textoDialogo.text = "SOMBRA: " + sombra.ObtenerDialogoActual();
+        MostrarDialogo("SOMBRA", sombra.ObtenerDialogoActual());
     }
 
     private void SeleccionarPalabra(TipoPalabra tipo)
@@ -87,7 +114,21 @@ public class UICombate : MonoBehaviour
                 sombra.EstadoActual == EstadoSombra.Vulnerabilidad;
         }
 
+        int vidaAnterior = enemigo.VidaActual;
+
         gestorCombate.UsarPalabra(tipo);
+
+        int danioRealizado = vidaAnterior - enemigo.VidaActual;
+
+        if (danioRealizado > 0)
+        {
+            textoDanio.text = "Daño recibido sombra: " + danioRealizado;
+            textoDanio.gameObject.SetActive(true);
+        }
+        else
+        {
+            textoDanio.gameObject.SetActive(false);
+        }
 
         if (tipo == TipoPalabra.Recordar || tipo == TipoPalabra.Cuestionar)
         {
@@ -105,7 +146,7 @@ public class UICombate : MonoBehaviour
                        palabra.fraseEfectiva :
                        palabra.fraseNormal;
 
-        textoDialogo.text = "PROTAGONISTA: " + frase;
+        MostrarDialogo("PROTAGONISTA", frase);
 
         esperandoDialogo = true;
         etapaDialogo = 0;
@@ -116,6 +157,23 @@ public class UICombate : MonoBehaviour
         ActualizarDatos();
     }
 
+
+    private void MostrarDialogo(string personaje, string mensaje)
+    {
+        textoDialogo.text = personaje + ": " + mensaje;
+
+        if (personaje == "SOMBRA")
+        {
+            fondoDialogo.color = colorSombra;
+        }
+        else if (personaje == "PROTAGONISTA")
+        {
+            fondoDialogo.color = colorProtagonista;
+        }
+    }
+
+
+
     private void ContinuarDialogo()
     {
         if (!esperandoDialogo)
@@ -125,14 +183,15 @@ public class UICombate : MonoBehaviour
 
         if (etapaDialogo == 1)
         {
-            textoDialogo.text = "SOMBRA: " + respuestaSombra;
+            MostrarDialogo("SOMBRA", respuestaSombra);
         }
         else if (etapaDialogo == 2)
         {
             if (!gestorCombate.CombateTerminado)
             {
                 gestorCombate.TurnoEnemigo();
-                textoDialogo.text = "SOMBRA: ¡Todavía no terminamos!";
+
+                MostrarDialogo("SOMBRA", "¡Todavía no terminamos!");
             }
 
             ActualizarDatos();
@@ -140,48 +199,61 @@ public class UICombate : MonoBehaviour
         else
         {
             esperandoDialogo = false;
-            botonContinuar.gameObject.SetActive(false);
 
+            botonContinuar.gameObject.SetActive(false);
 
             if (gestorCombate.CombateTerminado)
             {
                 if (enemigo.EstaDerrotado)
                 {
-                    textoDialogo.text = "¡VICTORIA! Has derrotado a la sombra.";
+                    textoDialogo.text =
+                        "¡VICTORIA! Has derrotado a la sombra.";
                 }
                 else
                 {
-                    textoDialogo.text = "DERROTA. La sombra ha vencido.";
+                    textoDialogo.text =
+                        "DERROTA. La sombra ha vencido.";
                 }
 
                 ActivarBotonesPalabras(false);
 
                 botonReiniciar.gameObject.SetActive(true);
             }
-
             else
             {
-                textoDialogo.text = "SOMBRA: " + sombra.ObtenerDialogoActual();
+                MostrarDialogo("SOMBRA", sombra.ObtenerDialogoActual());
+
+                textoDanio.gameObject.SetActive(false);
+
                 ActivarBotonesPalabras(true);
             }
         }
     }
+
 
     private void ActualizarDatos()
     {
         textoVida.text = jugador.VidaActual + " / " + jugador.VidaMaxima;
         barraVida.value = jugador.VidaActual;
         textoEstado.text = sombra.EstadoActual.ToString();
+
+        ActualizarUsos();
     }
+
 
     private void ActivarBotonesPalabras(bool activar)
     {
         botonRecordar.interactable = activar;
         botonCuestionar.interactable = activar;
-        botonAceptar.interactable = activar;
-        botonPerdonar.interactable = activar;
         botonAfirmar.interactable = activar;
+
+        botonAceptar.interactable =
+            activar && gestorCombate.UsosAceptar > 0;
+
+        botonPerdonar.interactable =
+            activar && gestorCombate.UsosPerdonar > 0;
     }
+
 
     private DatosPalabra ObtenerDatosPalabra(TipoPalabra tipo)
     {
@@ -207,12 +279,6 @@ public class UICombate : MonoBehaviour
         }
     }
 
-    [Header("Datos de las palabras")]
-    [SerializeField] private DatosPalabra recordarDatos;
-    [SerializeField] private DatosPalabra cuestionarDatos;
-    [SerializeField] private DatosPalabra aceptarDatos;
-    [SerializeField] private DatosPalabra perdonarDatos;
-    [SerializeField] private DatosPalabra afirmarDatos;
 
 
 
@@ -220,4 +286,19 @@ public class UICombate : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
+
+
+
+    private void ActualizarUsos()
+    {
+        textoBotonAceptar.text =
+            "ACEPTAR\nUsos: " + gestorCombate.UsosAceptar + "/3";
+
+        textoBotonPerdonar.text =
+            "PERDONAR\nUsos: " + gestorCombate.UsosPerdonar + "/3";
+    }
+
+
+
+
 }
