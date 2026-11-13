@@ -1,5 +1,6 @@
 
 using UnityEngine;
+using System.Collections;
 
 public class GestorCombate : MonoBehaviour
 {
@@ -17,6 +18,13 @@ public class GestorCombate : MonoBehaviour
 
     [Header("Configuracion del enemigo")]
     [SerializeField] private int danioEnemigo = 15;
+
+    [Header("Animaciones")]
+    [SerializeField] private Animator animatorSombra;
+    [SerializeField] private Animator animatorProtagonista;
+
+    [Header("Sincronizacion de animaciones")]
+    [SerializeField] private float retrasoImpacto = 0.4f;
 
     private bool combateTerminado;
 
@@ -101,6 +109,14 @@ public class GestorCombate : MonoBehaviour
             case TipoPalabra.Afirmar:
                 UsarAfirmar(palabra);
                 break;
+        }
+
+        if (animatorProtagonista != null &&
+     (tipo == TipoPalabra.Recordar ||
+      tipo == TipoPalabra.Cuestionar ||
+      tipo == TipoPalabra.Afirmar))
+        {
+            animatorProtagonista.SetTrigger("Atacar");
         }
 
         if (enemigo.EstaDerrotado)
@@ -206,7 +222,15 @@ public class GestorCombate : MonoBehaviour
         }
     }
 
+    private IEnumerator ReproducirImpacto(float retraso)
+    {
+        yield return new WaitForSeconds(retraso);
 
+        if (animatorProtagonista != null)
+        {
+            animatorProtagonista.SetTrigger("RecibirGolpe");
+        }
+    }
 
     public void TurnoEnemigo()
     {
@@ -215,7 +239,17 @@ public class GestorCombate : MonoBehaviour
 
         int danioFinal = Mathf.Max(0, danioEnemigo - defensaPendiente);
 
+        if (animatorSombra != null)
+        {
+            animatorSombra.SetTrigger("Atacar");
+        }
+
         jugador.RecibirDanio(danioFinal);
+
+        if (animatorProtagonista != null && danioFinal > 0)
+        {
+            StartCoroutine(ReproducirImpacto(retrasoImpacto));
+        }
 
         defensaPendiente = 0;
 

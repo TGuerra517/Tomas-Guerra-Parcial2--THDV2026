@@ -17,7 +17,7 @@ public class Sombra : MonoBehaviour
     private int indiceAfirmacion;
 
     [Header("Colores de la sombra")]
-    [SerializeField] private Renderer renderSombra;
+    [SerializeField] private SpriteRenderer spriteSombra;
 
     [SerializeField] private Color colorConviccion = Color.red;
     [SerializeField] private Color colorDuda = Color.magenta;
@@ -92,29 +92,44 @@ public class Sombra : MonoBehaviour
     }
 
 
+
     private void ActualizarColor()
     {
-        if (renderSombra == null)
+        if (spriteSombra == null)
             return;
-
-        Color nuevoColor = Color.white;
 
         switch (estadoActual)
         {
             case EstadoSombra.Conviccion:
-                nuevoColor = colorConviccion;
+                spriteSombra.color = colorConviccion;
                 break;
 
             case EstadoSombra.Duda:
-                nuevoColor = colorDuda;
+                spriteSombra.color = colorDuda;
                 break;
 
             case EstadoSombra.Vulnerabilidad:
-                nuevoColor = colorVulnerabilidad;
+                spriteSombra.color = colorVulnerabilidad;
                 break;
         }
+    }
 
-        renderSombra.material.color = nuevoColor;
+    public Color ObtenerColorActual()
+    {
+        switch (estadoActual)
+        {
+            case EstadoSombra.Conviccion:
+                return colorConviccion;
+
+            case EstadoSombra.Duda:
+                return colorDuda;
+
+            case EstadoSombra.Vulnerabilidad:
+                return colorVulnerabilidad;
+
+            default:
+                return Color.white;
+        }
     }
 
 

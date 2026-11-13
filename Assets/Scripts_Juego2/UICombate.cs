@@ -42,6 +42,10 @@ public class UICombate : MonoBehaviour
     [Header("Colores del dialogo")]
     [SerializeField] private Image fondoDialogo;
 
+    [Header("Colores del texto")]
+    [SerializeField] private Color textoColorSombra = Color.white;
+    [SerializeField] private Color textoColorProtagonista = Color.cyan;
+
     [SerializeField]
     private Color colorSombra =
         new Color(0.17f, 0.12f, 0.24f, 0.9f);
@@ -165,10 +169,12 @@ public class UICombate : MonoBehaviour
         if (personaje == "SOMBRA")
         {
             fondoDialogo.color = colorSombra;
+            textoDialogo.color = textoColorSombra;
         }
         else if (personaje == "PROTAGONISTA")
         {
             fondoDialogo.color = colorProtagonista;
+            textoDialogo.color = textoColorProtagonista;
         }
     }
 

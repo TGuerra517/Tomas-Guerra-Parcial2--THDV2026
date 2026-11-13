@@ -6,6 +6,7 @@ public class FeedbackDanio : MonoBehaviour
 {
     [Header("Referencias")]
     [SerializeField] private Renderer renderPersonaje;
+    [SerializeField] private SpriteRenderer spritePersonaje;
 
     [Header("Configuracion del parpadeo")]
     [SerializeField] private Color colorImpacto = Color.white;
@@ -19,7 +20,11 @@ public class FeedbackDanio : MonoBehaviour
     {
         sombra = GetComponent<Sombra>();
 
-        if (renderPersonaje != null)
+        if (spritePersonaje != null)
+        {
+            colorOriginal = spritePersonaje.color;
+        }
+        else if (renderPersonaje != null)
         {
             colorOriginal = renderPersonaje.material.color;
         }
@@ -27,7 +32,7 @@ public class FeedbackDanio : MonoBehaviour
 
     public void MostrarImpacto()
     {
-        if (renderPersonaje == null)
+        if (spritePersonaje == null && renderPersonaje == null)
             return;
 
         if (parpadeoActual != null)
@@ -40,33 +45,33 @@ public class FeedbackDanio : MonoBehaviour
 
     private IEnumerator Parpadear()
     {
-        renderPersonaje.material.color = colorImpacto;
+        CambiarColor(colorImpacto);
 
         yield return new WaitForSeconds(duracion);
 
         if (sombra != null)
         {
-            switch (sombra.EstadoActual)
-            {
-                case EstadoSombra.Conviccion:
-                    renderPersonaje.material.color = Color.red;
-                    break;
-
-                case EstadoSombra.Duda:
-                    renderPersonaje.material.color = Color.magenta;
-                    break;
-
-                case EstadoSombra.Vulnerabilidad:
-                    renderPersonaje.material.color = Color.cyan;
-                    break;
-            }
+            CambiarColor(sombra.ObtenerColorActual());
         }
         else
         {
-            renderPersonaje.material.color = colorOriginal;
+            CambiarColor(colorOriginal);
         }
 
         parpadeoActual = null;
     }
+
+    private void CambiarColor(Color nuevoColor)
+    {
+        if (spritePersonaje != null)
+        {
+            spritePersonaje.color = nuevoColor;
+        }
+        else if (renderPersonaje != null)
+        {
+            renderPersonaje.material.color = nuevoColor;
+        }
+    }
 }
+
 
