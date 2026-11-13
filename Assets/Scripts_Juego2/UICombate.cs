@@ -168,12 +168,12 @@ public class UICombate : MonoBehaviour
 
         if (personaje == "SOMBRA")
         {
-            fondoDialogo.color = colorSombra;
+            //fondoDialogo.color = colorSombra;
             textoDialogo.color = textoColorSombra;
         }
         else if (personaje == "PROTAGONISTA")
         {
-            fondoDialogo.color = colorProtagonista;
+           // fondoDialogo.color = colorProtagonista;
             textoDialogo.color = textoColorProtagonista;
         }
     }
