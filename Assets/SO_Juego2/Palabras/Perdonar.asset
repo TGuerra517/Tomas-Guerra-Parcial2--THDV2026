@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DatosPalabra
   nombrePalabra: Perdonar
   descripcion: "Permite dejar atr\xE1s los errores y recuperar vida."
-  fraseNormal: Puedo equivocarme y darme otra oportunidad.
-  fraseEfectiva: Puedo equivocarme y darme otra oportunidad.
+  fraseNormal: "Me equivoqu\xE9, pero puedo intentarlo una vez mas."
+  fraseEfectiva: "Me equivoqu\xE9, pero puedo intentarlo una vez mas."
   tipoPalabra: 3
   danioBase: 0
   curacion: 20

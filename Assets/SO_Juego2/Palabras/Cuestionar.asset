@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DatosPalabra
   nombrePalabra: Cuestionar
   descripcion: Pone en duda los argumentos de la sombra.
-  fraseNormal: "\xBFY si las cosas no son como dec\xEDs?"
+  fraseNormal: "\xBFY por qu\xE9 tendr\xEDa que creerte?"
   fraseEfectiva: "\xBFPor qu\xE9 un error tendr\xEDa que definir qui\xE9n soy?"
   tipoPalabra: 1
   danioBase: 5

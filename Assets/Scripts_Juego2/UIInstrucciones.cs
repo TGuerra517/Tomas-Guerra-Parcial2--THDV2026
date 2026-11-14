@@ -20,6 +20,9 @@ public class UIInstrucciones : MonoBehaviour
     [SerializeField] private GameObject panelDialogo;
     [SerializeField] private GameObject panelAcciones;
 
+    [Header("Secuencia narrativa")]
+    [SerializeField] private UICombate uiCombate;
+
     private bool combateIniciado = false;
 
     private void Start()
@@ -72,7 +75,9 @@ public class UIInstrucciones : MonoBehaviour
 
         combateIniciado = true;
 
-        Debug.Log("El combate ha comenzado.");
+        uiCombate.IniciarPrologo();
+
+        Debug.Log("El prologo ha comenzado.");
     }
 }
 

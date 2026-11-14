@@ -14,8 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DatosAfirmacion
   tipoAfirmacion: 0
   dialogoConviccion: "Siempre vas a fracasar. No importa cu\xE1nto lo intentes."
-  dialogoDuda: "Pero... \xBFy si no todos tus intentos terminaron en fracaso?"
-  dialogoVulnerabilidad: "Quiz\xE1s no pueda definirte por tus errores..."
-  dialogoResistencia: "Pod\xE9s intentar convencerte, pero sab\xE9s que vas a volver
-    a fallar."
+  dialogoDuda: "Esper\xE1... \xBFC\xF3mo que no todo termin\xF3 en fracaso?"
+  dialogoVulnerabilidad: "No... Si pudiste seguir adelante, entonces quiz\xE1s estaba
+    equivocado."
+  dialogoResistencia: "Pod\xE9s intentarlo las veces que quieras. Siempre termin\xE1s
+    en el mismo lugar."
   palabraEfectiva: 0

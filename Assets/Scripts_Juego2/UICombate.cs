@@ -38,6 +38,88 @@ public class UICombate : MonoBehaviour
     [Header("Boton de reinicio")]
     [SerializeField] private Button botonReiniciar;
 
+    [Header("Prologo")]
+    [SerializeField] private GameObject panelPrologo;
+    [SerializeField] private TMP_Text textoPrologo;
+    [SerializeField] private Button botonContinuarPrologo;
+
+    private int indicePrologo = 0;
+
+    private string[] frasesPrologo =
+    {
+    "¿Donde estoy? Como llegue hasta aca? No me acuerdo de nada",
+    "No puedo ver nada a mi alrededor. Siento que algo o alguien me observa",
+    "¿Quien anda ahi?."
+    };
+
+    private bool prologoActivo = true;
+
+
+    private int indiceEncuentro = 0;
+    private bool encuentroActivo = false;
+
+    private string[] personajesEncuentro =
+    {
+    "SOMBRA",
+    "PROTAGONISTA",
+    "SOMBRA",
+    "PROTAGONISTA"
+};
+
+    private string[] frasesEncuentro =
+    {
+    "Al fin te dignas a aparecer, querido amigo",
+    "¿Quién sos vos? ¿Donde estamos?",
+    "¿En serio no me reconoces? Yo te conozco desde siempre. Siempre estuve con vos",
+    "¿De que hablas? En guardia, malnacido"
+};
+
+
+    private string[] frasesAtaqueSombra =
+{
+    "¿Eso es todo lo que tenes para dar?",
+    "No te creas que te vas a librar de mí tan fácilmente.",
+    "No te hagas el duro. Sé que todavía tenés miedo."
+};
+
+    private int indiceFraseAtaque = 0;
+
+    private bool finalActivo = false;
+    private int indiceFinal = 0;
+    private bool victoriaFinal = false;
+
+    private string[] personajesVictoria =
+    {
+    "SOMBRA",
+    "PROTAGONISTA",
+    "SOMBRA",
+    "PROTAGONISTA"
+};
+
+    private string[] frasesVictoria =
+    {
+    "Es... Imposible. ¿Cómo pudiste ganarme?",
+    "Porque ya no voy a creer todo lo que vos me digas.",
+    "No podés deshacerte de mí. Soy parte de vos. Soy tus pensamientos.",
+    "Lo sé. Pero eso no significa que tengas que controlarme."
+};
+
+    private string[] personajesDerrota =
+    {
+    "PROTAGONISTA",
+    "SOMBRA",
+    "PROTAGONISTA",
+    "SOMBRA"
+};
+
+    private string[] frasesDerrota =
+    {
+    "No puedo... Por más que lo intente, no puedo ganarte.",
+    "Te lo dije. No podés escapar de lo que sos.",
+    "Talvez... talvez tengas razón.",
+    "Siempre tengo razón."
+};
+
 
     [Header("Colores del dialogo")]
     [SerializeField] private Image fondoDialogo;
@@ -69,6 +151,9 @@ public class UICombate : MonoBehaviour
     private string respuestaSombra;
     private bool esperandoDialogo;
 
+
+
+
     private void Start()
     {
 
@@ -80,11 +165,13 @@ public class UICombate : MonoBehaviour
         barraVida.minValue = 0;
         barraVida.maxValue = jugador.VidaMaxima;
 
+        
         botonRecordar.onClick.AddListener(() => SeleccionarPalabra(TipoPalabra.Recordar));
         botonCuestionar.onClick.AddListener(() => SeleccionarPalabra(TipoPalabra.Cuestionar));
         botonAceptar.onClick.AddListener(() => SeleccionarPalabra(TipoPalabra.Aceptar));
         botonPerdonar.onClick.AddListener(() => SeleccionarPalabra(TipoPalabra.Perdonar));
         botonAfirmar.onClick.AddListener(() => SeleccionarPalabra(TipoPalabra.Afirmar));
+        botonContinuarPrologo.onClick.AddListener(ContinuarPrologo);
 
         botonContinuar.onClick.AddListener(ContinuarDialogo);
 
@@ -92,12 +179,144 @@ public class UICombate : MonoBehaviour
         textoDanio.gameObject.SetActive(false);
 
         ActualizarDatos();
-        MostrarDialogo("SOMBRA", sombra.ObtenerDialogoActual());
+
+        panelPrologo.SetActive(false);
+        ActivarBotonesPalabras(false);
     }
+
+    public void IniciarPrologo()
+    {
+        indicePrologo = 0;
+        prologoActivo = true;
+
+        textoPrologo.text = frasesPrologo[0];
+        panelPrologo.SetActive(true);
+
+        ActivarBotonesPalabras(false);
+    }
+
+    private void ContinuarPrologo()
+    {
+        indicePrologo++;
+
+        if (indicePrologo < frasesPrologo.Length)
+        {
+            textoPrologo.text = frasesPrologo[indicePrologo];
+        }
+        else
+        {
+            panelPrologo.SetActive(false);
+            prologoActivo = false;
+
+            IniciarEncuentro();
+        }
+    }
+
+
+    private void IniciarEncuentro()
+    {
+        encuentroActivo = true;
+        indiceEncuentro = 0;
+
+        ActivarBotonesPalabras(false);
+
+        botonContinuar.gameObject.SetActive(true);
+
+        MostrarDialogo(
+            personajesEncuentro[indiceEncuentro],
+            frasesEncuentro[indiceEncuentro]
+        );
+    }
+
+
+    private void ContinuarEncuentro()
+    {
+        indiceEncuentro++;
+
+        if (indiceEncuentro < frasesEncuentro.Length)
+        {
+            MostrarDialogo(
+                personajesEncuentro[indiceEncuentro],
+                frasesEncuentro[indiceEncuentro]
+            );
+        }
+        else
+        {
+            encuentroActivo = false;
+
+            MostrarDialogo("SOMBRA", sombra.ObtenerDialogoActual());
+
+            botonContinuar.gameObject.SetActive(false);
+            ActivarBotonesPalabras(true);
+        }
+    }
+
+    private void IniciarFinal()
+    {
+        finalActivo = true;
+        indiceFinal = 0;
+
+        victoriaFinal = enemigo.EstaDerrotado;
+
+        esperandoDialogo = false;
+
+        ActivarBotonesPalabras(false);
+        botonReiniciar.gameObject.SetActive(false);
+        botonContinuar.gameObject.SetActive(true);
+
+        MostrarDialogo(
+            victoriaFinal ? personajesVictoria[0] : personajesDerrota[0],
+            victoriaFinal ? frasesVictoria[0] : frasesDerrota[0]
+        );
+    }
+
+    private void ContinuarFinal()
+    {
+        indiceFinal++;
+
+        string[] personajes = victoriaFinal
+            ? personajesVictoria
+            : personajesDerrota;
+
+        string[] frases = victoriaFinal
+            ? frasesVictoria
+            : frasesDerrota;
+
+        if (indiceFinal < frases.Length)
+        {
+            MostrarDialogo(
+                personajes[indiceFinal],
+                frases[indiceFinal]
+            );
+        }
+        else
+        {
+            finalActivo = false;
+
+            botonContinuar.gameObject.SetActive(false);
+            botonReiniciar.gameObject.SetActive(true);
+
+            textoDialogo.color = Color.white;
+
+            if (victoriaFinal)
+            {
+                textoDialogo.text =
+                    "¡VICTORIA! Has logrado enfrentarte a tu Sombra.";
+            }
+            else
+            {
+                textoDialogo.text =
+                    "DERROTA. Esta vez, la Sombra ha conseguido vencerte.";
+            }
+        }
+    }
+
+
 
     private void SeleccionarPalabra(TipoPalabra tipo)
     {
-        if (gestorCombate.CombateTerminado || esperandoDialogo)
+        if (gestorCombate.CombateTerminado || esperandoDialogo || prologoActivo ||
+    encuentroActivo)
             return;
 
         ultimaPalabra = tipo;
@@ -182,6 +401,19 @@ public class UICombate : MonoBehaviour
 
     private void ContinuarDialogo()
     {
+        if (finalActivo)
+        {
+            ContinuarFinal();
+            return;
+        }
+
+        if (encuentroActivo)
+        {
+            ContinuarEncuentro();
+            return;
+        }
+
+
         if (!esperandoDialogo)
             return;
 
@@ -197,7 +429,14 @@ public class UICombate : MonoBehaviour
             {
                 gestorCombate.TurnoEnemigo();
 
-                MostrarDialogo("SOMBRA", "¡Todavía no terminamos!");
+                MostrarDialogo("SOMBRA", frasesAtaqueSombra[indiceFraseAtaque]);
+
+                indiceFraseAtaque++;
+
+                if (indiceFraseAtaque >= frasesAtaqueSombra.Length)
+                {
+                    indiceFraseAtaque = 0;
+                }
             }
 
             ActualizarDatos();
@@ -210,20 +449,7 @@ public class UICombate : MonoBehaviour
 
             if (gestorCombate.CombateTerminado)
             {
-                if (enemigo.EstaDerrotado)
-                {
-                    textoDialogo.text =
-                        "¡VICTORIA! Has derrotado a la sombra.";
-                }
-                else
-                {
-                    textoDialogo.text =
-                        "DERROTA. La sombra ha vencido.";
-                }
-
-                ActivarBotonesPalabras(false);
-
-                botonReiniciar.gameObject.SetActive(true);
+                IniciarFinal();
             }
             else
             {

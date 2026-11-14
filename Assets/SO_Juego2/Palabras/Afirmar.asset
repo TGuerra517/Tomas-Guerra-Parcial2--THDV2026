@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DatosPalabra
   nombrePalabra: Afirmar
   descripcion: "Expresa una convicci\xF3n propia para debilitar a la sombra."
-  fraseNormal: "S\xE9 que puedo seguir adelante."
+  fraseNormal: No pienso rendirme ahora.
   fraseEfectiva: "No sos vos quien decide cu\xE1nto valgo."
   tipoPalabra: 4
   danioBase: 15

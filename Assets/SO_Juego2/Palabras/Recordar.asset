@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DatosPalabra
   nombrePalabra: Recordar
   descripcion: Recupera recuerdos que contradicen las afirmaciones de la sombra.
-  fraseNormal: Tengo recuerdos que me ayudan a seguir.
-  fraseEfectiva: "No todo lo que intent\xE9 termin\xF3 en fracaso."
+  fraseNormal: "Ya pas\xE9 por momentos dif\xEDciles antes."
+  fraseEfectiva: "No todo lo que intent\xE9 termin\xF3 en fracaso. Y vos lo sab\xE9s."
   tipoPalabra: 0
   danioBase: 10
   curacion: 0

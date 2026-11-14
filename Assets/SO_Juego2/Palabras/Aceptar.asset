@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DatosPalabra
   nombrePalabra: Aceptar
   descripcion: "Reconoce las emociones y reduce el da\xF1o recibido."
-  fraseNormal: Puedo sentir miedo sin dejar que me controle.
-  fraseEfectiva: Puedo sentir miedo sin dejar que me controle.
+  fraseNormal: Tengo miedo. No voy a fingir que no.
+  fraseEfectiva: Tengo miedo. No voy a fingir que no.
   tipoPalabra: 2
   danioBase: 0
   curacion: 0

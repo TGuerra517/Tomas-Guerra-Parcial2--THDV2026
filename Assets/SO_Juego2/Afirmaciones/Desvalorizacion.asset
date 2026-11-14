@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::DatosAfirmacion
   tipoAfirmacion: 1
   dialogoConviccion: "Si comet\xE9s un error, significa que no val\xE9s nada."
-  dialogoDuda: "Y si equivocarse no significa ser in\xFAtil?"
-  dialogoVulnerabilidad: Tal vez tus errores no determinen tu valor...
-  dialogoResistencia: Nada de lo que digas va a borrar tus errores.
+  dialogoDuda: "\xBFQu\xE9...? \xBFUn error no alcanza para definirte?"
+  dialogoVulnerabilidad: "Entonces... \xBFtu valor no depende de lo que hagas?"
+  dialogoResistencia: "No importa c\xF3mo lo justifiques. Lo que hiciste no se puede
+    cambiar."
   palabraEfectiva: 1
