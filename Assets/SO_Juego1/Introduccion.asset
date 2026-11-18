@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Introduccion
   m_EditorClassIdentifier: Assembly-CSharp::DatosPensamiento
   titulo: Mi Objetivo
-  contenido: Nose como llegue ni que hago aca. Estoy dentro de una torre y veo la
-    cima. Debo llegar hasta alla.
+  contenido: "Estoy dentro de un sue\xF1o. Nose como salir. Veo una torre en el horizonte.
+    Debo llegar hasta la cima."

@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using System.Collections;
 
@@ -30,7 +29,6 @@ public class GestorCombate : MonoBehaviour
 
     private int defensaPendiente;
 
-
     [Header("Limites de palabras")]
     [SerializeField] private int usosMaximos = 3;
 
@@ -50,7 +48,6 @@ public class GestorCombate : MonoBehaviour
         Debug.Log("¡Comienza el combate!");
         Debug.Log("La sombra dice: " + sombra.ObtenerDialogoActual());
     }
-
 
     public void UsarPalabra(TipoPalabra tipo)
     {
@@ -73,7 +70,6 @@ public class GestorCombate : MonoBehaviour
             case TipoPalabra.Cuestionar:
                 UsarPalabraOfensiva(palabra);
                 break;
-
 
             case TipoPalabra.Aceptar:
 
@@ -105,16 +101,15 @@ public class GestorCombate : MonoBehaviour
                 Debug.Log("PERDONAR: usos restantes " + usosPerdonar);
                 break;
 
-
             case TipoPalabra.Afirmar:
                 UsarAfirmar(palabra);
                 break;
         }
 
         if (animatorProtagonista != null &&
-     (tipo == TipoPalabra.Recordar ||
-      tipo == TipoPalabra.Cuestionar ||
-      tipo == TipoPalabra.Afirmar))
+        (tipo == TipoPalabra.Recordar ||
+        tipo == TipoPalabra.Cuestionar ||
+        tipo == TipoPalabra.Afirmar))
         {
             animatorProtagonista.SetTrigger("Atacar");
         }
@@ -125,7 +120,6 @@ public class GestorCombate : MonoBehaviour
             Debug.Log("¡VICTORIA! La sombra fue derrotada.");
         }
     }
-
 
     private DatosPalabra ObtenerPalabra(TipoPalabra tipo)
     {
@@ -190,7 +184,6 @@ public class GestorCombate : MonoBehaviour
         Debug.Log("La sombra dice: " + sombra.ObtenerDialogoActual());
     }
 
-
     private void UsarAfirmar(DatosPalabra palabra)
     {
         int danio = 0;
@@ -216,7 +209,7 @@ public class GestorCombate : MonoBehaviour
         Debug.Log("Daño realizado: " + danio);
 
         if (sombra.EstadoActual == EstadoSombra.Vulnerabilidad
-            && !enemigo.EstaDerrotado)
+        && !enemigo.EstaDerrotado)
         {
             sombra.SiguienteAfirmacion();
         }
@@ -262,8 +255,6 @@ public class GestorCombate : MonoBehaviour
         }
     }
 
-
-
     [ContextMenu("Probar RECORDAR")]
     public void ProbarRecordar()
     {
@@ -293,7 +284,6 @@ public class GestorCombate : MonoBehaviour
     {
         UsarPalabra(TipoPalabra.Afirmar);
     }
-
 
     public bool CombateTerminado => combateTerminado;
 }

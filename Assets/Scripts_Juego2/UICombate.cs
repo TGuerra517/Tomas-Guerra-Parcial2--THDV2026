@@ -1,4 +1,3 @@
-
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
@@ -47,40 +46,38 @@ public class UICombate : MonoBehaviour
 
     private string[] frasesPrologo =
     {
-    "¿Donde estoy? Como llegue hasta aca? No me acuerdo de nada",
-    "No puedo ver nada a mi alrededor. Siento que algo o alguien me observa",
-    "¿Quien anda ahi?."
+        "¿Donde estoy? Como llegue hasta aca? No me acuerdo de nada",
+        "No puedo ver nada a mi alrededor. Siento que algo o alguien me observa",
+        "¿Quien anda ahi?."
     };
 
     private bool prologoActivo = true;
-
 
     private int indiceEncuentro = 0;
     private bool encuentroActivo = false;
 
     private string[] personajesEncuentro =
     {
-    "SOMBRA",
-    "PROTAGONISTA",
-    "SOMBRA",
-    "PROTAGONISTA"
-};
+        "SOMBRA",
+        "PROTAGONISTA",
+        "SOMBRA",
+        "PROTAGONISTA"
+    };
 
     private string[] frasesEncuentro =
     {
-    "Al fin te dignas a aparecer, querido amigo",
-    "¿Quién sos vos? ¿Donde estamos?",
-    "¿En serio no me reconoces? Yo te conozco desde siempre. Siempre estuve con vos",
-    "¿De que hablas? En guardia, malnacido"
-};
-
+        "Al fin te dignas a aparecer, querido amigo",
+        "¿Quién sos vos? ¿Donde estamos?",
+        "¿En serio no me reconoces? Yo te conozco desde siempre. Siempre estuve con vos",
+        "¿De que hablas? En guardia, malnacido"
+    };
 
     private string[] frasesAtaqueSombra =
-{
-    "¿Eso es todo lo que tenes para dar?",
-    "No te creas que te vas a librar de mí tan fácilmente.",
-    "No te hagas el duro. Sé que todavía tenés miedo."
-};
+    {
+        "¿Eso es todo lo que tenes para dar?",
+        "No te creas que te vas a librar de mí tan fácilmente.",
+        "No te hagas el duro. Sé que todavía tenés miedo."
+    };
 
     private int indiceFraseAtaque = 0;
 
@@ -90,36 +87,35 @@ public class UICombate : MonoBehaviour
 
     private string[] personajesVictoria =
     {
-    "SOMBRA",
-    "PROTAGONISTA",
-    "SOMBRA",
-    "PROTAGONISTA"
-};
+        "SOMBRA",
+        "PROTAGONISTA",
+        "SOMBRA",
+        "PROTAGONISTA"
+    };
 
     private string[] frasesVictoria =
     {
-    "Es... Imposible. ¿Cómo pudiste ganarme?",
-    "Porque ya no voy a creer todo lo que vos me digas.",
-    "No podés deshacerte de mí. Soy parte de vos. Soy tus pensamientos.",
-    "Lo sé. Pero eso no significa que tengas que controlarme."
-};
+        "Es... Imposible. ¿Cómo pudiste ganarme?",
+        "Porque ya no voy a creer todo lo que vos me digas.",
+        "No podés deshacerte de mí. Soy parte de vos. Soy tus pensamientos.",
+        "Lo sé. Pero eso no significa que tengas que controlarme."
+    };
 
     private string[] personajesDerrota =
     {
-    "PROTAGONISTA",
-    "SOMBRA",
-    "PROTAGONISTA",
-    "SOMBRA"
-};
+        "PROTAGONISTA",
+        "SOMBRA",
+        "PROTAGONISTA",
+        "SOMBRA"
+    };
 
     private string[] frasesDerrota =
     {
-    "No puedo... Por más que lo intente, no puedo ganarte.",
-    "Te lo dije. No podés escapar de lo que sos.",
-    "Talvez... talvez tengas razón.",
-    "Siempre tengo razón."
-};
-
+        "No puedo... Por más que lo intente, no puedo ganarte.",
+        "Te lo dije. No podés escapar de lo que sos.",
+        "Talvez... talvez tengas razón.",
+        "Siempre tengo razón."
+    };
 
     [Header("Colores del dialogo")]
     [SerializeField] private Image fondoDialogo;
@@ -130,13 +126,11 @@ public class UICombate : MonoBehaviour
 
     [SerializeField]
     private Color colorSombra =
-        new Color(0.17f, 0.12f, 0.24f, 0.9f);
+    new Color(0.17f, 0.12f, 0.24f, 0.9f);
 
     [SerializeField]
     private Color colorProtagonista =
-        new Color(0.10f, 0.20f, 0.25f, 0.9f);
-
-
+    new Color(0.10f, 0.20f, 0.25f, 0.9f);
 
     [Header("Datos de las palabras")]
     [SerializeField] private DatosPalabra recordarDatos;
@@ -151,21 +145,15 @@ public class UICombate : MonoBehaviour
     private string respuestaSombra;
     private bool esperandoDialogo;
 
-
-
-
     private void Start()
     {
 
         botonReiniciar.onClick.AddListener(ReiniciarCombate);
         botonReiniciar.gameObject.SetActive(false);
 
-
-
         barraVida.minValue = 0;
         barraVida.maxValue = jugador.VidaMaxima;
 
-        
         botonRecordar.onClick.AddListener(() => SeleccionarPalabra(TipoPalabra.Recordar));
         botonCuestionar.onClick.AddListener(() => SeleccionarPalabra(TipoPalabra.Cuestionar));
         botonAceptar.onClick.AddListener(() => SeleccionarPalabra(TipoPalabra.Aceptar));
@@ -212,7 +200,6 @@ public class UICombate : MonoBehaviour
         }
     }
 
-
     private void IniciarEncuentro()
     {
         encuentroActivo = true;
@@ -223,11 +210,10 @@ public class UICombate : MonoBehaviour
         botonContinuar.gameObject.SetActive(true);
 
         MostrarDialogo(
-            personajesEncuentro[indiceEncuentro],
-            frasesEncuentro[indiceEncuentro]
+        personajesEncuentro[indiceEncuentro],
+        frasesEncuentro[indiceEncuentro]
         );
     }
-
 
     private void ContinuarEncuentro()
     {
@@ -236,8 +222,8 @@ public class UICombate : MonoBehaviour
         if (indiceEncuentro < frasesEncuentro.Length)
         {
             MostrarDialogo(
-                personajesEncuentro[indiceEncuentro],
-                frasesEncuentro[indiceEncuentro]
+            personajesEncuentro[indiceEncuentro],
+            frasesEncuentro[indiceEncuentro]
             );
         }
         else
@@ -265,8 +251,8 @@ public class UICombate : MonoBehaviour
         botonContinuar.gameObject.SetActive(true);
 
         MostrarDialogo(
-            victoriaFinal ? personajesVictoria[0] : personajesDerrota[0],
-            victoriaFinal ? frasesVictoria[0] : frasesDerrota[0]
+        victoriaFinal ? personajesVictoria[0] : personajesDerrota[0],
+        victoriaFinal ? frasesVictoria[0] : frasesDerrota[0]
         );
     }
 
@@ -275,18 +261,18 @@ public class UICombate : MonoBehaviour
         indiceFinal++;
 
         string[] personajes = victoriaFinal
-            ? personajesVictoria
-            : personajesDerrota;
+        ? personajesVictoria
+        : personajesDerrota;
 
         string[] frases = victoriaFinal
-            ? frasesVictoria
-            : frasesDerrota;
+        ? frasesVictoria
+        : frasesDerrota;
 
         if (indiceFinal < frases.Length)
         {
             MostrarDialogo(
-                personajes[indiceFinal],
-                frases[indiceFinal]
+            personajes[indiceFinal],
+            frases[indiceFinal]
             );
         }
         else
@@ -301,22 +287,20 @@ public class UICombate : MonoBehaviour
             if (victoriaFinal)
             {
                 textoDialogo.text =
-                    "¡VICTORIA! Has logrado enfrentarte a tu Sombra.";
+                "¡VICTORIA! Has logrado enfrentarte a tu Sombra.";
             }
             else
             {
                 textoDialogo.text =
-                    "DERROTA. Esta vez, la Sombra ha conseguido vencerte.";
+                "DERROTA. Esta vez, la Sombra ha conseguido vencerte.";
             }
         }
     }
 
-
-
     private void SeleccionarPalabra(TipoPalabra tipo)
     {
         if (gestorCombate.CombateTerminado || esperandoDialogo || prologoActivo ||
-    encuentroActivo)
+        encuentroActivo)
             return;
 
         ultimaPalabra = tipo;
@@ -329,12 +313,12 @@ public class UICombate : MonoBehaviour
         DatosAfirmacion afirmacion = sombra.AfirmacionActual;
 
         palabraFueEfectiva = afirmacion != null &&
-                            tipo == afirmacion.palabraEfectiva;
+        tipo == afirmacion.palabraEfectiva;
 
         if (tipo == TipoPalabra.Afirmar)
         {
             palabraFueEfectiva =
-                sombra.EstadoActual == EstadoSombra.Vulnerabilidad;
+            sombra.EstadoActual == EstadoSombra.Vulnerabilidad;
         }
 
         int vidaAnterior = enemigo.VidaActual;
@@ -366,8 +350,8 @@ public class UICombate : MonoBehaviour
         }
 
         string frase = palabraFueEfectiva ?
-                       palabra.fraseEfectiva :
-                       palabra.fraseNormal;
+        palabra.fraseEfectiva :
+        palabra.fraseNormal;
 
         MostrarDialogo("PROTAGONISTA", frase);
 
@@ -380,7 +364,6 @@ public class UICombate : MonoBehaviour
         ActualizarDatos();
     }
 
-
     private void MostrarDialogo(string personaje, string mensaje)
     {
         textoDialogo.text = personaje + ": " + mensaje;
@@ -392,12 +375,10 @@ public class UICombate : MonoBehaviour
         }
         else if (personaje == "PROTAGONISTA")
         {
-           // fondoDialogo.color = colorProtagonista;
+            // fondoDialogo.color = colorProtagonista;
             textoDialogo.color = textoColorProtagonista;
         }
     }
-
-
 
     private void ContinuarDialogo()
     {
@@ -412,7 +393,6 @@ public class UICombate : MonoBehaviour
             ContinuarEncuentro();
             return;
         }
-
 
         if (!esperandoDialogo)
             return;
@@ -462,7 +442,6 @@ public class UICombate : MonoBehaviour
         }
     }
 
-
     private void ActualizarDatos()
     {
         textoVida.text = jugador.VidaActual + " / " + jugador.VidaMaxima;
@@ -472,7 +451,6 @@ public class UICombate : MonoBehaviour
         ActualizarUsos();
     }
 
-
     private void ActivarBotonesPalabras(bool activar)
     {
         botonRecordar.interactable = activar;
@@ -480,12 +458,11 @@ public class UICombate : MonoBehaviour
         botonAfirmar.interactable = activar;
 
         botonAceptar.interactable =
-            activar && gestorCombate.UsosAceptar > 0;
+        activar && gestorCombate.UsosAceptar > 0;
 
         botonPerdonar.interactable =
-            activar && gestorCombate.UsosPerdonar > 0;
+        activar && gestorCombate.UsosPerdonar > 0;
     }
-
 
     private DatosPalabra ObtenerDatosPalabra(TipoPalabra tipo)
     {
@@ -511,26 +488,18 @@ public class UICombate : MonoBehaviour
         }
     }
 
-
-
-
     private void ReiniciarCombate()
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
-
-
     private void ActualizarUsos()
     {
         textoBotonAceptar.text =
-            "ACEPTAR\nUsos: " + gestorCombate.UsosAceptar + "/3";
+        "ACEPTAR\nUsos: " + gestorCombate.UsosAceptar + "/3";
 
         textoBotonPerdonar.text =
-            "PERDONAR\nUsos: " + gestorCombate.UsosPerdonar + "/3";
+        "PERDONAR\nUsos: " + gestorCombate.UsosPerdonar + "/3";
     }
-
-
-
 
 }
